@@ -12,6 +12,7 @@ public class Behaviour_2 extends WakerBehaviour{
 
     @Override
     protected void onWake() {
-
+        System.out.println("Аукцион - вышло время!");
     }
+
 }

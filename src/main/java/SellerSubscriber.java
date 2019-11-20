@@ -4,48 +4,49 @@ import jade.core.Agent;
 import jade.core.ServiceException;
 import jade.core.behaviours.Behaviour;
 import jade.core.messaging.TopicManagementHelper;
+import jade.domain.DFService;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.domain.FIPAAgentManagement.ServiceDescription;
+import jade.domain.FIPAException;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
 import java.util.Random;
 
 public class SellerSubscriber extends Agent {
-    private Random r = new Random();
-    private double minPrice = 2.0 + r.nextDouble()*4;
+
     public AID topic;
+
     @Override
     protected void setup() {
-        addBehaviour(new Behaviour() {
-            @Override
-            public void action() {
-                MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.INFORM);
-                ACLMessage msg = myAgent.receive(mt);
 
-                if (msg != null) {
-                    topic = subscribeTopic(msg.getContent());
-                    System.out.println("I'm in" + " -> " + getLocalName());
-                }
-            }
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-            @Override
-            public boolean done() {
-                return false;
-            }
-        });
+
+        registerAgent();
+
+        addBehaviour(new waitngForInvitation_Seller());
 
     }
 
-    private AID subscribeTopic(String topicName) {
-        TopicManagementHelper topicHelper;
-        AID jadeTopic = null;
+
+    private void registerAgent() {
+
+        DFAgentDescription dfd = new DFAgentDescription();
+        dfd.setName(getAID());
+        ServiceDescription sd = new ServiceDescription();
+        sd.setType("Auction");
+        sd.setName("Auction"+getLocalName());
+        dfd.addServices(sd);
+
         try {
-            topicHelper = (TopicManagementHelper)
-                    getHelper(TopicManagementHelper.SERVICE_NAME);
-            jadeTopic = topicHelper.createTopic(topicName);
-            topicHelper.register(jadeTopic);
-        } catch (ServiceException e) {
+            DFService.register(this,dfd);
+        } catch (FIPAException e) {
             e.printStackTrace();
         }
-        return jadeTopic;
     }
 }

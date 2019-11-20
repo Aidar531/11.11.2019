@@ -4,12 +4,12 @@ import jade.core.behaviours.WakerBehaviour;
 
 public class BehavioursOfBet extends ParallelBehaviour {
 
-    private Behaviour a,b;
+    private Behaviour a, b;
 
     public BehavioursOfBet(Behaviour a, Behaviour b) {
         super(WHEN_ANY);
-        this.a =a;
-        this.b =b;
+        this.a = a;
+        this.b = b;
     }
 
     @Override
@@ -20,15 +20,9 @@ public class BehavioursOfBet extends ParallelBehaviour {
 
     @Override
     public int onEnd() {
-        if (a.done()){
-            System.out.println("behaviour ended successfully");
-            return 1;
-        } else if (b.done()){
-            return 2;
-        } else {
-            return 0;
+        if (a.done()) {
+            System.out.println("Аукцион закончен");
         }
-
+        return 1;
     }
-
 }
