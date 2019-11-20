@@ -38,7 +38,7 @@ public class listenToTopic_Seller extends Behaviour {
         ACLMessage msg = myAgent.receive(mt);
         if (msg != null) {
             if (Double.parseDouble(msg.getContent()) < myBet) {
-                myBet = 0.9*myBet;
+                myBet = 0.7*myBet;
 //                System.out.println(myAgent.getLocalName() +  " текущая ставка " + myBet);
                 if (myBet > minStavka) {
                     ACLMessage msg1 = new ACLMessage(ACLMessage.PROPOSE);

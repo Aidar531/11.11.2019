@@ -17,8 +17,9 @@ public class waitngForInvitation_Seller extends Behaviour {
     @Override
     public void action() {
 
-        MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.INFORM);
+        MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.REQUEST);
         ACLMessage msg = myAgent.receive(mt);
+
         if (msg != null) {
 
 //            System.out.println("Отправил ставкку " + myAgent.getLocalName() + " " +myPrice*2);

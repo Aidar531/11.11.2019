@@ -16,10 +16,10 @@ public class InvitationBehaviour extends OneShotBehaviour {
 
     @Override
     public void action() {
-        nameOfTopic = "Test";
+        nameOfTopic = "Test "+System.currentTimeMillis();
 //        nameOfTopic = "Test" + System.currentTimeMillis();
         AID bet = createTopic(nameOfTopic);
-//        System.out.println(nameOfTopic);
+        System.out.println("Название аукциона: " + nameOfTopic);
 
         AID topic = subscribeTopic(nameOfTopic);
 
@@ -43,7 +43,7 @@ public class InvitationBehaviour extends OneShotBehaviour {
         for (DFAgentDescription foundAgent : foundAgents) {
             if (!foundAgent.getName().getLocalName().equals(getAgent().getLocalName())) {
                 System.out.println("Отправил приглашение -> " + foundAgent.getName().getLocalName());
-                ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
+                ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
                 msg.setContent(nameOfTopic);
                 msg.addReceiver(foundAgent.getName());
                 myAgent.send(msg);
